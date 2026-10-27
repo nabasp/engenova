@@ -1,26 +1,183 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant narrow (@media (max-width: 760px));
+@custom-variant wide (@media (min-width: 761px));
+
+@theme {
+  /* Brand */
+  --color-navy: #0b2d5b;
+  --color-navy-hover: #123e7a;
+  --color-navy-deep: #062042;
+  --color-teal: #00aaa6;
+  --color-teal-dark: #00807d;
+  --color-teal-bright: #00c8c3;
+  --color-green: #00c853;
+  --color-cyan: #009fe3;
+  --color-ink: #3d4b5f;
+  --color-gray: #6b7280;
+  /* Gray text on surface needs a touch more weight to clear 4.5:1. */
+  --color-gray-deep: #626a77;
+  --color-line: #e1e8ee;
+  --color-surface: #f3f7f9;
+
+  /* Supporting tones from the reference */
+  --color-field: #c5d1dc;
+  --color-tile: #d8e0e8;
+  --color-track: #d3dde6;
+  --color-dash: #b9c7d4;
+  --color-hairline: #e5eaf0;
+  --color-divider: #eef2f5;
+  --color-panel: #f7fafb;
+  --color-ice: #9fd9e8;
+  --color-mint: #9fe8d9;
+  --color-mist: #d6e2ee;
+  --color-fog: #afc2d6;
+
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-arabic: var(--font-plex-arabic), var(--font-archivo), sans-serif;
+  --font-wordmark: var(--font-montserrat), sans-serif;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px;
+  }
+  html,
+  body {
+    overflow-x: clip;
+  }
+  body {
+    margin: 0;
+    background: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a {
+    color: var(--color-navy);
+    text-decoration: none;
+  }
+  ::selection {
+    background: var(--color-teal);
+    color: #ffffff;
+  }
+  /* Drawings are authored left-to-right; RTL mirroring is applied explicitly where wanted. */
+  svg {
+    direction: ltr;
+  }
+  html[lang="ar"] body :not([data-latin]):not([data-latin] *) {
+    font-family: var(--font-arabic) !important;
+    letter-spacing: 0 !important;
+  }
+  html[lang="ar"] h1,
+  html[lang="ar"] h2 {
+    line-height: 1.3 !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@utility container-x {
+  max-width: 1240px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+@utility gutter {
+  padding-inline: clamp(20px, 4vw, 40px);
+}
+
+@utility mono-label {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@utility h2-display {
+  margin: 0;
+  font-size: clamp(32px, 4.2vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+@utility section-y {
+  padding-block: clamp(80px, 10vw, 140px);
+}
+
+@utility pretty {
+  text-wrap: pretty;
+}
+
+/* Form controls share one look. */
+@utility field {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  letter-spacing: 0;
+  text-transform: none;
+  height: 50px;
+  padding-inline: 14px;
+  border: 1px solid var(--color-field);
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: var(--color-navy);
+  outline: none;
+  width: 100%;
+  &:focus {
+    border-color: var(--color-navy);
+    box-shadow: 0 0 0 3px rgb(0 170 166 / 0.18);
+  }
+  &[aria-invalid="true"] {
+    border-color: #c0392b;
+  }
+}
+
+@utility select-chevron {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  padding-inline-end: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%230B2D5B' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 12px 8px;
+  background-position: right 16px center;
+  &:dir(rtl) {
+    background-position: left 16px center;
+  }
+}
+
+/* Hero copy rises in with CSS so it paints without waiting for JS. Stagger via --i. */
+@keyframes hero-rise {
+  from {
+    /* 0.01, not 0: the hero paints on the first frame, so it counts for LCP. */
+    opacity: 0.01;
+    transform: translateY(22px);
+  }
+}
+
+@utility hero-rise {
+  animation: hero-rise 0.8s cubic-bezier(0.33, 1, 0.68, 1) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* Drawings that GSAP builds from nothing stay hidden until their timeline starts. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-js-reveal] {
+    visibility: hidden;
+  }
 }
