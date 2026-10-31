@@ -9,7 +9,7 @@ export default function Contact({ m, locale }: { m: Messages; locale: Locale }) 
   return (
     <section id="contact" className="gutter section-y">
       <RevealScope className="container-x">
-        <SectionRule n="09" label={t.sec9} />
+        <SectionRule n="12" label={t.sec9} />
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] items-start gap-14">
           <div>
             <h2

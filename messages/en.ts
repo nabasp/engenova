@@ -34,7 +34,7 @@ export const en = {
     "sec1": "Company Overview",
     "tagline": "Engineering expertise. Intelligent solutions.",
     "ovP1": "ENGENOVA is the engineering services brand of Engenova Services LLP. We deliver intelligence-driven, AI-enabled engineering support from India to HVAC air outlet and duct accessory manufacturers, combining experienced engineering judgement with AI-assisted workflows to provide fast, accurate and engineer-verified results at up to 40% lower cost.",
-    "ovP2": "Beyond product selection and submittal support, ENGENOVA offers hands-on consultancy that helps manufacturers strengthen product development, supplier management, certification readiness and factory operations.",
+    "ovP2": "Beyond product selection and submittal support, ENGENOVA offers hands-on consultancy that helps manufacturers strengthen product development, supplier management, certification readiness and factory operations. The same India-based team also offers a total package of remote services: software and ERP development, MEP and fire fighting engineering support, finance and accounting, and HR services.",
     "upTo": "Up to",
     "lowerCost": "Lower engineering cost*",
     "delivered": "Delivered from India. Powered by AI. Verified by engineers.",
@@ -67,7 +67,7 @@ export const en = {
     "certDisc": "ENGENOVA prepares documentation and coordinates the process; listings, ratings and certificates are issued only by the relevant laboratory or certification body. UL, AMCA, AHRI and Intertek are trademarks of their respective owners; no affiliation, endorsement or approval is implied.",
     "sec5": "AI-Powered, Engineer-Verified",
     "aiH": "AI enables. Engineers decide.",
-    "aiP": "AI is an enabling capability within ENGENOVA’s engineering approach, not a substitute for engineering judgement. The aim is to make technical workflows more organised, repeatable and efficient, while keeping outputs reviewable.",
+    "aiP": "AI is an enabling capability within ENGENOVA’s engineering approach, not a substitute for engineering judgement. The aim is to use appropriate tools to make technical workflows more organised, repeatable and efficient, while keeping outputs reviewable.",
     "bpLeft": "Drawing review & take-off · generator room",
     "bpRight": "AI detection → engineer review",
     "aiValueH": "Where AI adds value",
@@ -80,13 +80,13 @@ export const en = {
     "sec7": "How We Deliver",
     "sec8": "Consultancy for Manufacturers",
     "csH": "More than selection and submittals.",
-    "csP": "Hands-on consultancy across product, supplier, quality and factory operations. These assignments involve closer collaboration with your team and may include site visits, planned and agreed in advance.",
+    "csP": "For manufacturers who want more than selection and submittal support, ENGENOVA offers hands-on consultancy across product, supplier, quality and factory operations. These assignments involve closer collaboration with your team and may include site visits, planned and agreed in advance.",
     "onsiteT": "On-site support",
     "onsiteD": "Site visits can be arranged where the assignment calls for them.",
     "csDisc": "Consultancy assignments are scoped individually. Regulated, safety-critical or specialist work is undertaken only within agreed competence and authorisation boundaries.",
     "sec9": "Contact",
     "ctH": "Let’s engineer what’s next.",
-    "ctP": "ENGENOVA brings together AI-powered workflows, qualified engineers and practical manufacturing know-how to help HVAC air outlet and duct accessory manufacturers respond faster, quote with confidence and perform better.",
+    "ctP": "ENGENOVA brings together AI-powered workflows, qualified engineers and practical manufacturing know-how to help HVAC air outlet and duct accessory manufacturers respond faster, quote with confidence and perform better, with software, MEP, finance and HR support available as a total package.",
     "shareT": "To start efficiently, share:",
     "shareD": "A requirement summary, relevant drawings/specifications, applicable standards, deadline, named reviewer and preferred deliverable format.",
     "legalL": "Legal name",
@@ -119,7 +119,20 @@ export const en = {
     "sending": "Sending…",
     "errRequired": "This field is required.",
     "errEmail": "Enter a valid business email.",
-    "errGeneric": "Something went wrong. Please try again in a moment."
+    "errGeneric": "Something went wrong. Please try again in a moment.",
+    "secExt": "Extended services",
+    "extH": "Your total package.",
+    "extP": "HVAC air outlet and duct accessory support remains ENGENOVA’s main focus. The same India-based team also offers a wider set of services that can be delivered remotely, so manufacturers and engineering businesses can source engineering, software, finance and people support from one partner.",
+    "extDisc": "Extended services are delivered remotely from India and scoped individually. Design, calculation and compliance work is prepared for review and approval by the client’s licensed professionals and the relevant authorities. Finance and HR support does not include regulated financial, investment, tax or legal advice, and is subject to applicable local requirements.",
+    "secEngage": "Engagement models",
+    "engH": "Structured around your workload.",
+    "engP": "ENGENOVA can structure assignments around the client’s workload, technical requirements and preferred way of working. Final availability and commercial terms are confirmed during proposal stage.",
+    "secClients": "Clients & markets",
+    "clientsH": "Who we work with.",
+    "clientsP": "ENGENOVA is intended to work with B2B organisations that need responsive technical support, engineering documentation or specialist project assistance.",
+    "targetT": "Target markets",
+    "targetV": "Saudi Arabia • United Arab Emirates • Qatar • Oman • Bahrain • Kuwait",
+    "clientsDisc": "Market entry and delivery arrangements will be developed in line with company registrations, applicable local requirements and each client’s procurement process."
   },
   "chips": [
     "Selection & BOQ",
@@ -129,7 +142,10 @@ export const en = {
     "Generator system study",
     "Indoor acoustic study",
     "Manufacturing consultancy",
-    "Retained support"
+    "Retained support",
+    "Software & ERP development",
+    "MEP & fire fighting support",
+    "Finance & HR support"
   ],
   "why": [
     {
@@ -224,7 +240,7 @@ export const en = {
     {
       "n": "08",
       "t": "Indoor Acoustic Study",
-      "d": "Assessing noise levels and sound attenuator performance against project room criteria, with results presented for consultant and client review."
+      "d": "Indoor acoustic study for sound attenuators, assessing noise levels and attenuation performance against project room criteria, with results presented for consultant and client review."
     }
   ],
   "certs": [
@@ -238,15 +254,15 @@ export const en = {
     },
     {
       "t": "AMCA",
-      "d": "Air movement & control ratings"
+      "d": "Air movement & control ratings for louvers and dampers"
     },
     {
       "t": "AHRI",
-      "d": "Performance certification, HVAC&R"
+      "d": "Performance certification for HVAC&R products"
     },
     {
       "t": "Intertek",
-      "d": "Third-party testing, incl. ETL listing"
+      "d": "Third-party testing & certification, incl. ETL listing"
     }
   ],
   "certSupport": [
@@ -449,6 +465,129 @@ export const en = {
       "n": "11",
       "t": "Custom Design & Production",
       "d": "Customised product design with production-readiness support."
+    }
+  ],
+  "extended": [
+    {
+      "n": "01",
+      "t": "Software Development",
+      "points": [
+        "Custom web and desktop applications",
+        "Mobile apps for Android and iOS",
+        "Selection tools and product configurators",
+        "Dashboards, reports and data tools",
+        "API and system integration",
+        "Testing, maintenance and support"
+      ]
+    },
+    {
+      "n": "02",
+      "t": "ERP Development",
+      "points": [
+        "Requirement study and process mapping",
+        "ERP implementation and customisation",
+        "Sales, quotation, purchase, stock and production modules",
+        "Accounts and finance integration",
+        "Data migration and system integration",
+        "User training, documentation and support"
+      ]
+    },
+    {
+      "n": "03",
+      "t": "MEP Services",
+      "points": [
+        "MEP design coordination and drafting",
+        "HVAC, electrical and plumbing layouts",
+        "Load calculations and equipment selection",
+        "BOQ and cost estimation",
+        "Shop drawings and as-built drawings",
+        "BIM modelling and clash coordination"
+      ]
+    },
+    {
+      "n": "04",
+      "t": "Fire Fighting Services",
+      "points": [
+        "Sprinkler, hydrant and hose reel design support",
+        "Hydraulic calculations",
+        "Fire pump and water tank sizing",
+        "Fire alarm layout and schedule drafting",
+        "Shop drawings, BOQ and material submittals",
+        "Code and civil defence requirement review"
+      ]
+    },
+    {
+      "n": "05",
+      "t": "Finance & Accounting",
+      "points": [
+        "Bookkeeping and accounts support",
+        "Payables, receivables and invoicing support",
+        "Budgeting, MIS and management reports",
+        "Product costing and pricing models",
+        "Financial models and project cash flow",
+        "VAT and tax documentation support"
+      ]
+    },
+    {
+      "n": "06",
+      "t": "HR Services",
+      "points": [
+        "Recruitment and talent sourcing support",
+        "Job descriptions and HR policies",
+        "Onboarding and employee records",
+        "Payroll preparation support",
+        "Attendance, leave and HR reporting",
+        "Performance and training frameworks"
+      ]
+    }
+  ],
+  "engagement": [
+    {
+      "n": "01",
+      "t": "Defined-scope assignment",
+      "d": "A specific deliverable or technical task with agreed inputs, milestones and acceptance criteria."
+    },
+    {
+      "n": "02",
+      "t": "Project-based support",
+      "d": "Engineering assistance aligned with a project phase, package, submission or defined workstream."
+    },
+    {
+      "n": "03",
+      "t": "Retained technical support",
+      "d": "An agreed recurring allocation for technical documentation, selection support or engineering queries."
+    },
+    {
+      "n": "04",
+      "t": "Specialist collaboration",
+      "d": "Coordination with client teams, manufacturers, consultants and external specialists where required."
+    }
+  ],
+  "clients": [
+    {
+      "n": "01",
+      "t": "HVAC air outlet & duct accessory manufacturers",
+      "d": "Selection, BOQs, generator system studies, compliance and certification support, prequalification, submittals, quotations and manufacturing consultancy."
+    },
+    {
+      "n": "02",
+      "t": "Consultants & design practices",
+      "d": "Engineering calculations, selection support, schedules, documentation and technical coordination."
+    },
+    {
+      "n": "03",
+      "t": "MEP contractors & system integrators",
+      "d": "Submittals, BOQs, equipment comparison, technical responses and installation-stage support."
+    },
+    {
+      "n": "04",
+      "t": "Facility & maintenance teams",
+      "d": "Troubleshooting documentation, maintenance engineering inputs and equipment review support."
+    },
+    {
+      "n": "05",
+      "t": "Industrial businesses",
+      "d": "Technical process documentation, product support and practical improvement assignments."
     }
   ]
 };

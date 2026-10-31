@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import AiProcess from "@/components/landing/AiProcess";
 import Certifications from "@/components/landing/Certifications";
+import ClientsMarkets from "@/components/landing/ClientsMarkets";
 import Commitments from "@/components/landing/Commitments";
 import Consultancy from "@/components/landing/Consultancy";
 import Contact from "@/components/landing/Contact";
 import CoreServices from "@/components/landing/CoreServices";
+import EngagementModels from "@/components/landing/EngagementModels";
+import ExtendedServices from "@/components/landing/ExtendedServices";
 import Footer from "@/components/landing/Footer";
 import Header from "@/components/landing/Header";
 import Hero from "@/components/landing/Hero";
@@ -86,6 +89,9 @@ export default async function Page({ params }: PageProps<"/[locale]">) {
         </section>
         <HowWeDeliver steps={m.delivery} />
         <Consultancy m={m} />
+        <ExtendedServices m={m} />
+        <EngagementModels m={m} />
+        <ClientsMarkets m={m} />
         <Contact m={m} locale={locale} />
       </main>
       <Footer t={t} />
