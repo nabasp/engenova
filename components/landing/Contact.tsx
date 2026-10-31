@@ -1,3 +1,4 @@
+import { DEFAULT_DIAL, getDialOptions } from "@/lib/dial-codes";
 import type { Locale, Messages } from "@/messages";
 import ContactForm from "./ContactForm";
 import RevealScope from "./RevealScope";
@@ -35,7 +36,7 @@ export default function Contact({ m, locale }: { m: Messages; locale: Locale }) 
             </dl>
           </div>
           <div data-reveal>
-            <ContactForm t={t} chips={m.chips} locale={locale} />
+            <ContactForm t={t} chips={m.chips} locale={locale} dial={{ ...getDialOptions(locale), initial: DEFAULT_DIAL }} />
           </div>
         </div>
       </RevealScope>

@@ -1,17 +1,23 @@
 "use server";
 
+import { getCountries, parsePhoneNumberFromString, type CountryCode } from "libphonenumber-js";
 import { Resend } from "resend";
 import { z } from "zod";
 import { en } from "@/messages/en";
-import { COUNTRY_KEYS, DEADLINE_KEYS, type EnquiryState } from "@/lib/enquiry";
+import { DEADLINE_KEYS, type EnquiryState } from "@/lib/enquiry";
+
+const DIAL_COUNTRIES = new Set<string>(getCountries());
+const isDialCountry = (v: string): v is CountryCode => DIAL_COUNTRIES.has(v);
+const regionName = new Intl.DisplayNames(["en"], { type: "region" });
 
 const schema = z.object({
   name: z.string().trim().min(1, "required").max(200),
   company: z.string().trim().min(1, "required").max(200),
   email: z.string().trim().min(1, "required").pipe(z.email("email")),
-  phone: z.string().trim().max(50).optional().default(""),
-  country: z.enum(COUNTRY_KEYS),
-  deadline: z.enum(DEADLINE_KEYS),
+  // Mobile number: the dial-code picker's country plus the number as typed (which may itself start with +).
+  dial: z.string().refine(isDialCountry),
+  phone: z.string().trim().min(1, "required").max(30),
+  deadline: z.enum(DEADLINE_KEYS).or(z.literal("")),
   services: z.array(z.coerce.number().int().min(0).max(en.chips.length - 1)).max(en.chips.length),
   message: z.string().trim().max(5000).optional().default(""),
   locale: z.enum(["en", "ar"]),
@@ -26,36 +32,45 @@ export async function sendEnquiry(_prev: EnquiryState, formData: FormData): Prom
     name: formData.get("name") ?? "",
     company: formData.get("company") ?? "",
     email: formData.get("email") ?? "",
+    dial: formData.get("dial") ?? "",
     phone: formData.get("phone") ?? "",
-    country: formData.get("country"),
-    deadline: formData.get("deadline"),
+    deadline: formData.get("deadline") ?? "",
     services: formData.getAll("services"),
     message: formData.get("message") ?? "",
     locale: formData.get("locale"),
     website: formData.get("website") ?? "",
   });
 
+  const fieldErrors: EnquiryState["fieldErrors"] = {};
   if (!parsed.success) {
-    const fieldErrors: EnquiryState["fieldErrors"] = {};
     for (const issue of parsed.error.issues) {
       const key = issue.path[0];
-      if (key === "name" || key === "company" || key === "email") {
+      if (key === "name" || key === "company" || key === "email" || key === "phone") {
         fieldErrors[key] ??= issue.message === "email" ? "email" : "required";
       }
     }
+  }
+  // The country is read from the number, so it must be a real one. Checked even when other fields fail.
+  const dial = String(formData.get("dial") ?? "");
+  const phone = String(formData.get("phone") ?? "").trim();
+  const mobile = phone ? parsePhoneNumberFromString(phone, isDialCountry(dial) ? dial : undefined) : undefined;
+  if (phone && !mobile?.isValid()) fieldErrors.phone = "phone";
+
+  if (!parsed.success || !mobile?.isValid()) {
     // Anything else (tampered selects, honeypot) gets a generic error.
     return { status: "error", fieldErrors: Object.keys(fieldErrors).length ? fieldErrors : undefined };
   }
 
   const d = parsed.data;
+  const country = mobile.country ?? d.dial;
   // Always report in English, whichever page the enquiry came from.
   const rows: [string, string][] = [
     ["Name", d.name],
     ["Company", d.company],
     ["Email", d.email],
-    ["Phone", d.phone || "—"],
-    ["Country", en.ui[d.country]],
-    ["Deadline", en.ui[d.deadline]],
+    ["Mobile", mobile.formatInternational()],
+    ["Country", `${regionName.of(country) ?? country} (from mobile number)`],
+    ["Deadline", d.deadline ? en.ui[d.deadline] : "—"],
     ["Services", d.services.map((i) => en.chips[i]).join(", ") || "—"],
     ["Page language", d.locale.toUpperCase()],
   ];

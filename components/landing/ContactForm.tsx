@@ -2,7 +2,8 @@
 
 import { startTransition, useActionState, useState, type FormEvent, type ReactNode } from "react";
 import { sendEnquiry } from "@/app/actions/enquiry";
-import { COUNTRY_KEYS, DEADLINE_KEYS, type EnquiryField, type EnquiryState } from "@/lib/enquiry";
+import type { DialOption } from "@/lib/dial-codes";
+import { DEADLINE_KEYS, type EnquiryField, type EnquiryState } from "@/lib/enquiry";
 import type { Locale, UI } from "@/messages";
 
 const INITIAL: EnquiryState = { status: "idle" };
@@ -21,12 +22,66 @@ function StepHeading({ n, children }: { n: string; children: ReactNode }) {
   );
 }
 
-type FormProps = { t: UI; chips: string[]; locale: Locale };
+export type DialOptions = { priority: DialOption[]; rest: DialOption[]; initial: string };
+
+type FormProps = { t: UI; chips: string[]; locale: Locale; dial: DialOptions };
+
+/** Country-code picker + number in one field. The visible code is a label over a transparent native select. */
+function MobileField({ t, dial, invalid, describedBy }: { t: UI; dial: DialOptions; invalid: boolean; describedBy?: string }) {
+  const [iso, setIso] = useState(dial.initial);
+  const selected = [...dial.priority, ...dial.rest].find((o) => o.iso === iso) ?? dial.priority[0];
+  const option = (o: DialOption) => (
+    <option key={o.iso} value={o.iso}>
+      {`${o.name} (${o.code})`}
+    </option>
+  );
+  return (
+    <div
+      dir="ltr"
+      className={`flex h-[50px] w-full overflow-hidden rounded-md border bg-white font-sans text-base tracking-normal text-navy normal-case focus-within:border-navy focus-within:shadow-[0_0_0_3px_rgba(0,170,166,0.18)] ${
+        invalid ? "border-[#c0392b]" : "border-field"
+      }`}
+    >
+      <div className="relative flex flex-none items-center gap-1.5 border-e border-field ps-3 pe-2.5">
+        <span aria-hidden="true" className="text-lg leading-none">
+          {selected.flag}
+        </span>
+        <span aria-hidden="true">{selected.code}</span>
+        <svg viewBox="0 0 12 8" className="h-2 w-3" fill="none" aria-hidden="true">
+          <path d="M1 1.5l5 5 5-5" stroke="#0B2D5B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <select
+          name="dial"
+          value={iso}
+          onChange={(e) => setIso(e.target.value)}
+          aria-label={t.dialCode}
+          className="absolute inset-0 cursor-pointer opacity-0"
+        >
+          <optgroup label={t.dialTop}>{dial.priority.map(option)}</optgroup>
+          <optgroup label={t.dialAll}>{dial.rest.map(option)}</optgroup>
+        </select>
+      </div>
+      <input
+        id="mobile"
+        required
+        type="tel"
+        name="phone"
+        inputMode="tel"
+        autoComplete="tel-national"
+        placeholder={t.phMobile}
+        aria-invalid={invalid || undefined}
+        aria-describedby={describedBy}
+        className="min-w-0 flex-1 border-0 bg-transparent px-3.5 outline-none"
+      />
+    </div>
+  );
+}
 
 function EnquiryForm({
   t,
   chips,
   locale,
+  dial,
   initialPicked,
   onReset,
 }: FormProps & { initialPicked: number[]; onReset: () => void }) {
@@ -66,7 +121,7 @@ function EnquiryForm({
   const errText = (f: EnquiryField) =>
     err(f) && (
       <span id={`${f}-error`} className="font-sans text-[13px] tracking-normal text-[#B42318] normal-case">
-        {err(f) === "email" ? t.errEmail : t.errRequired}
+        {err(f) === "email" ? t.errEmail : err(f) === "phone" ? t.errPhone : t.errRequired}
       </span>
     );
 
@@ -112,23 +167,15 @@ function EnquiryForm({
         />
         {errText("email")}
       </label>
-      <label className={labelCls}>
-        {t.fPhone}
-        <input type="tel" name="phone" autoComplete="tel" placeholder="+971 …" dir="ltr" className="field rtl:text-end" />
-      </label>
-      <label className={labelCls}>
-        {t.fCountry}
-        <select name="country" className="field select-chevron" defaultValue={COUNTRY_KEYS[0]}>
-          {COUNTRY_KEYS.map((k) => (
-            <option key={k} value={k}>
-              {t[k]}
-            </option>
-          ))}
-        </select>
-      </label>
+      <div className={labelCls}>
+        <label htmlFor="mobile">{t.fMobile}</label>
+        <MobileField t={t} dial={dial} invalid={!!err("phone")} describedBy={err("phone") ? "phone-error" : undefined} />
+        {errText("phone")}
+      </div>
       <label className={labelCls}>
         {t.fDeadline}
-        <select name="deadline" className="field select-chevron" defaultValue={DEADLINE_KEYS[0]}>
+        <select name="deadline" className="field select-chevron" defaultValue="">
+          <option value="">{t.dlNone}</option>
           {DEADLINE_KEYS.map((k) => (
             <option key={k} value={k}>
               {t[k]}
@@ -199,7 +246,7 @@ function EnquiryForm({
 }
 
 /** Two-part enquiry form posting to the `sendEnquiry` Server Action. */
-export default function ContactForm({ t, chips, locale }: FormProps) {
+export default function ContactForm({ t, chips, locale, dial }: FormProps) {
   const [round, setRound] = useState(0);
   return (
     <div className="overflow-hidden rounded-lg border border-line bg-white shadow-[0_24px_60px_-30px_rgba(11,45,91,0.25)]">
@@ -220,6 +267,7 @@ export default function ContactForm({ t, chips, locale }: FormProps) {
           t={t}
           chips={chips}
           locale={locale}
+          dial={dial}
           initialPicked={round === 0 ? [0] : []}
           onReset={() => setRound((r) => r + 1)}
         />

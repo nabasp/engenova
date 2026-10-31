@@ -28,6 +28,7 @@ When `RESEND_API_KEY` or `ENQUIRY_TO` is missing in development, enquiries are p
 - `gsap` and `@gsap/react`: animations, using `ScrollTrigger` and `DrawSVGPlugin` (both ship in the free `gsap` package).
 - `zod`: validates enquiries in the Server Action.
 - `resend`: sends the enquiry email.
+- `libphonenumber-js`: validates the mobile number and works out the country from it. It runs only on the server; the country-code list is built there and passed to the form.
 
 ## Where things live
 
